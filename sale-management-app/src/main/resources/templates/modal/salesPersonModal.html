@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/baseLayout}">}">
+<head>
+</head>
+<body>
+<div th:fragment="salesPersonModal">
+    <div class="modal fade" id="sales-person-modal" tabindex="-1" role="dialog" aria-labelledby="salesPersonModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header" style="background-color: #f0f8ff; padding: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h5 class="modal-title" style="float: left; color: #008b8b; font-weight: bold">Add SalesPerson</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-times-circle" aria-hidden="true" style="color: #ff0000;"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding: 30px 10px 0 10px;">
+                    <form action="salesperson" method="post" name="salesPersonForm">
+                        <table class="input-form">
+                            <tr>
+                                <!--<td><label th:text="#{SalesPerson.SalesPersonId}"></label></td>-->
+                                <td>
+                                    <input type="hidden" id="salesPersonId" name="salesPersonId" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label th:text="#{Field.FirstName}"></label></td>
+                                <td>
+                                    <input type="text" id="firstName" maxlength="10" name="firstName" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label th:text="#{Field.LastName}"></label></td>
+                                <td>
+                                    <input type="text" id="lastName" maxlength="50" name="lastName" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label th:text="#{Field.Status}"></label></td>
+                                <td>
+                                    <select id="status" name="status" class="form-control" style="margin-bottom: 5px">
+                                        <option value="AV" selected>Active</option>
+                                        <option value="DE">Deleted</option>
+                                        <option value="UA">UnActive</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label th:text="#{Field.Address}"></label></td>
+                                <td>
+                                    <input th:type="text" id="address" name="address" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label th:text="#{Field.Email}"></label></td>
+                                <td> <input type="email" id="email" name="email" class="form-control"> </td>
+                            </tr>
+                            <tr>
+                                <td><label th:text="#{Field.Phone}"></label></td>
+                                <td> <input type="text" maxlength="12" id="phone" name="phone" class="form-control"> </td>
+                            </tr>
+                            <tr>
+                                <td><label th:text="#{SalesPerson.ItemLimit}"></label></td>
+                                <td> <input type="number" min="0" max="100000" step="any" id="itemLimit" name="itemLimit" class="form-control"> </td>
+                            </tr>
+                            <tr>
+                                <td><label th:text="#{Field.Description}"></label></td>
+                                <td>
+                                    <textarea th:type="text" id="description" name="description" class="form-control" th:cols="40" th:rows="3"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="btn-action">
+                                    <button type="submit" class="btn btn-primary">
+                                        <span th:text="#{Form.Save}"></span>&nbsp;<i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

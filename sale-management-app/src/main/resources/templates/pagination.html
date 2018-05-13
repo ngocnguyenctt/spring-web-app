@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/baseLayout}">}">
+<head>
+</head>
+<body>
+<div th:fragment="sales-person-pagination" class="container" style="margin: auto; width: 400px">
+    <ul class="pagination" id="sales-person-pagination">
+        <li>
+            <a th:href="@{/salesPerson}">
+                <i class="fa fa-fast-backward" aria-hidden="true"></i> &nbsp; First
+            </a>
+        </li>
+        <li>
+            <a href="#" th:class="prev">
+                <i class="fa fa-backward" aria-hidden="true"></i>&nbsp; Prev
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <input type="text" th:value="${currentPage}"
+                       style="width: 20px;height: 18px;text-align: center; border-radius: 5px;"/>
+                <span>/</span><span th:text="${lastPage}"></span>
+            </a>
+        </li>
+        <li>
+            <a href="#" th:class="next">Next&nbsp;<i class="fa fa-forward" aria-hidden="true"></i></a>
+        </li>
+        <li>
+            <a th:href="@{/salesPerson(page=${lastPage},size=10)}">
+                Last&nbsp;<i class="fa fa-fast-forward" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<div th:fragment="customer-pagination" class="container" style="margin: auto; width: 400px">
+    <ul class="pagination" id="customer-pagination">
+        <li>
+            <a th:href="@{/customer}">
+                <i class="fa fa-fast-backward" aria-hidden="true"></i> &nbsp; First
+            </a>
+        </li>
+        <li>
+            <a href="#" th:class="prev">
+                <i class="fa fa-backward" aria-hidden="true"></i>&nbsp; Prev
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <input type="text" th:value="${currentPage}"
+                       style="width: 20px;height: 18px;text-align: center; border-radius: 5px;"/>
+                <span>/</span><span th:text="${lastPage}"></span>
+            </a>
+        </li>
+        <li>
+            <a href="#" th:class="next">Next&nbsp;<i class="fa fa-forward" aria-hidden="true"></i></a>
+        </li>
+        <li>
+            <a th:href="@{/customer(page=${lastPage},size=10)}">
+                Last&nbsp;<i class="fa fa-fast-forward" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<div th:fragment="item-pagination" class="container" style="margin: auto; width: 400px">
+    <ul class="pagination" id="item-pagination">
+        <li>
+            <a th:href="@{/item}">
+                <i class="fa fa-fast-backward" aria-hidden="true"></i> &nbsp; First
+            </a>
+        </li>
+        <li>
+            <a href="#" th:class="prev">
+                <i class="fa fa-backward" aria-hidden="true"></i>&nbsp; Prev
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <input type="text" th:value="${currentPage}"
+                       style="width: 20px;height: 18px;text-align: center; border-radius: 5px;"/>
+                <span>/</span><span th:text="${lastPage}"></span>
+            </a>
+        </li>
+        <li>
+            <a href="#" th:class="next">Next&nbsp;<i class="fa fa-forward" aria-hidden="true"></i></a>
+        </li>
+        <li>
+            <a th:href="@{/item(page=${lastPage},size=10)}">
+                Last&nbsp;<i class="fa fa-fast-forward" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

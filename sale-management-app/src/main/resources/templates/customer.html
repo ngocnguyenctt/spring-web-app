@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/baseLayout}">}">
+<head>
+    <title th:text="#{Title.CustomerManagement}"></title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div th:if="${SuccessMessage != null && !SuccessMessage.isEmpty()}" th:class="'alert-__${css}__' + ' alert alert-dismissible'" role="alert">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+        <strong th:text="${SuccessMessage}"></strong>
+    </div>
+    <form th:action="@{/customer}" th:object="${Customer}" method="post">
+        <table class="input-form">
+            <tr>
+                <td><label th:text="#{Customer.CustomerID}"></label></td>
+                <td>
+                    <div class="input-group" style="margin-bottom: 5px">
+                        <input type="text" maxlength="20" th:field="*{customerId}" class="form-control" readonly>
+                        <span class="input-group-addon" id="basic-addon1"><i class="far fa-edit" aria-hidden="true"></i></span>
+                    </div>
+                    <span class="error" th:if="${#fields.hasErrors('customerId')}" th:errors="*{customerId}"></span>
+                </td>
+                <td><label th:text="#{Field.Status}"></label></td>
+                <td>
+                    <select th:field="*{status}" class="form-control">
+                        <option th:each="status:${statusList}" th:value="${status.key}" th:text="${status.value}"></option>
+                    </select>
+                    <span class="error" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label th:text="#{Field.FirstName}"></label></td>
+                <td>
+                    <input th:type="text" maxlength="10" th:field="*{firstName}" class="form-control" required>
+                    <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+                </td>
+                <td><label th:text="#{Field.LastName}"></label></td>
+                <td>
+                    <input th:type="text" maxlength="50" th:field="*{lastName}" class="form-control" required>
+                    <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label th:text="#{Field.Address}"></label></td>
+                <td>
+                    <input th:type="text" th:field="*{address}" class="form-control" required>
+                    <span class="error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+                </td>
+                <td><label th:text="#{Field.Email}"></label> </td>
+                <td>
+                    <input type="email" th:field="*{email}" class="form-control" required>
+                    <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label th:text="#{Field.Phone}"></label></td>
+                <td>
+                    <input th:type="text" maxlength="12" pattern="\d{3}-\d{7}|\d{4}-\d{7}" title="Phone must be in the form XXX-XXXXXXX or XXXX-XXXXXXX" th:field="*{phone}" class="form-control" required>
+                    <span class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+                </td>
+                <td><label th:text="#{Customer.Fax}"></label> </td>
+                <td>
+                    <input type="text" maxlength="7" pattern="\d{7}" title="Fax must be have 7 digits" th:field="*{fax}" class="form-control">
+                    <span class="error" th:if="${#fields.hasErrors('fax')}" th:errors="*{fax}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label th:text="#{Field.Description}"></label></td>
+                <td th:colspan="3">
+                    <textarea th:type="text" th:field="*{description}" class="form-control" th:cols="40" th:rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="btn-action">
+                    <button type="button" class="btn btn-default" onclick="javascript:location.href='/customer'">
+                        <span th:text="#{Form.Reset}"></span>&nbsp; <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-info " id="customer-search">
+                        <span th:text="#{Form.Search}"></span>&nbsp;<i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <span th:text="#{Form.Save}"></span>&nbsp;<i class="fa fa-floppy-o" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger " data-toggle="popover" title="delete customer?" data-content="Are you sure?">
+                        <span th:text="#{Form.Delete}"></span>&nbsp;<i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn-back btn" onclick="javascript:location.href='/'">
+                        <span th:text="#{Form.Back}"></span>&nbsp;<i class="fa fa-undo" aria-hidden="true"></i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="list">
+        <table class="tbl-table table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th th:text="#{Customer.CustomerID}"></th>
+                <th th:text="#{Customer.CustomerName}"></th>
+                <th th:text="#{Field.Address}"></th>
+                <th th:text="#{Field.Email}"></th>
+                <th th:text="#{Field.Phone}"></th>
+                <th th:text="#{Customer.Fax}"></th>
+                <th th:text="#{Field.Status}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer:${customerList}">
+                <td class="text-center" style="width: 10px"><input type="radio" name="select-customer"
+                                                                   class="select-customer"
+                                                                   th:id="customer-__${customer.customerId}__"
+                                                                   th:value="${customer.customerId}">
+                </td>
+                <td th:text="${customer.customerId}"></td>
+                <td th:text="${customer.lastName} + ' ' + ${customer.firstName}"></td>
+                <td th:text="${customer.address}"></td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.phone}"></td>
+                <td th:text="${customer.fax}"></td>
+                <td th:if="${customer.status} == 'AV'" th:text="Active"></td>
+                <td th:if="${customer.status} == 'DE'" th:text="Deleted"></td>
+                <td th:if="${customer.status} == 'UA'" th:text="UnActive"></td>
+                <input type="hidden" th:value="${customer.description}">
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:replace="pagination::customer-pagination"></div>
+    </div>
+    <script th:src="@{/js/customer.js}" type="text/javascript"></script>
+</section>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/baseLayout}">}">
+    <head>
+    </head>
+    <body>
+        <header th:fragment="header" class="float-right">
+            <div class="float-left language">
+                <div class="btn-group" style="margin-left: 7px">
+                    <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="show-language">
+                            <a href="?lang=en" style="color: #ffffff">
+                                <img th:src="@{/images/um.svg}" width="25" height="15">
+                                <span th:text="#{Form.English}"></span>
+                            </a>
+                        </span>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </div>
+                    <ul class="dropdown-menu select-language">
+                        <li>
+                            <a href="?lang=en">
+                                <img th:src="@{/images/um.svg}" width="25" height="15">
+                                <span th:text="#{Form.English}"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="?lang=vi">
+                                <img th:src="@{/images/vn.svg}" width="25" height="15">
+                                <span th:text="#{Form.Vietnamese}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="float-right">
+            </div>
+        </header>
+    </body>
+</html>

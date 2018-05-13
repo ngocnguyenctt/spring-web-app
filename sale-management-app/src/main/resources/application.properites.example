@@ -1,0 +1,37 @@
+# PostgreSQL Connection Properties
+spring.datasource.url=xxxxxxxxx
+spring.datasource.username=xxxxxxxxx
+spring.datasource.password=xxxxxxxxx
+spring.datasource.driver-class-name=xxxxxxxxx
+
+## tomcat-pool configuration
+#spring.datasource.type=org.apache.tomcat.jdbc.pool.DataSource
+#spring.datasource.tomcat.initial-size=10
+#spring.datasource.tomcat.max-active=100
+#spring.datasource.tomcat.max-idle=50
+#spring.datasource.tomcat.min-idle=10
+#spring.datasource.tomcat.time-between-eviction-runs-millis=30000
+#
+#spring.datasource.tomcat.test-on-borrow=true
+#spring.datasource.tomcat.validation-query=SELECT 1
+#spring.datasource.tomcat.validation-interval=30000
+#
+#spring.datasource.tomcat.log-abandoned=true
+#spring.datasource.tomcat.suspect-timeout=60
+# HikariCP Configuration
+spring.datasource.hikari.maximum-pool-size=10
+spring.datasource.hikari.idle-timeout=30000
+# Hibernate Configuration
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL95Dialect
+## Thymeleaf Configuration
+spring.thymeleaf.cache=false
+# Jackson-dataType Configuration
+spring.jackson.serialization.fail-on-empty-beans=false
+# custom
+spring.data.web.pageable.default-page-size=10
+spring.data.web.pageable.one-indexed-parameters=true
+spring.profiles.active=dev
+spring.jpa.open-in-view=false

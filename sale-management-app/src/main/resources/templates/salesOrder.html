@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/baseLayout}">
+<head><title th:text="#{Title.SalesOrderManagement}"></title></head>
+<body>
+<section layout:fragment="content">
+    <div th:if="${message != null && !message.isEmpty()}" th:class="'alert-__${css}__' + ' alert alert-dismissible'" role="alert">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+        <strong th:text="${message}"></strong>
+    </div>
+
+    <div class="sales-order-form">
+        <form th:action="@{/salesOrder}" th:object="${SalesOrder}" method="post">
+            <table class="input-form">
+                <tr>
+                    <td><label th:text="#{SalesOrder.OrderNo}"></label></td>
+                    <td>
+                        <div class="input-group" style="margin-bottom: 5px">
+                            <input type="text" maxlength="20" th:field="*{orderNo}" class="form-control" readonly>
+                            <span class="input-group-addon" id="sod-basic-addon"><i class="fa fa-edit" aria-hidden="true"></i></span>
+                        </div>
+                        <span class="error" th:if="${#fields.hasErrors('orderNo')}" th:errors="*{orderNo}"></span>
+                    </td>
+                    <td><label th:text="#{SalesPerson.SalesPersonId}"></label></td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" minlength="5" maxlength="20" th:field="*{salesPerson.salesPersonId}" class="sod-salesPersonId form-control" aria-describedby="basic-addon1" required>
+                            <span class="input-group-addon" id="basic-addon1" data-toggle="modal" data-target="#sales-person-modal"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                        </div>
+                        <span class="message" th:text="${SalespersonMessage}"></span>
+                        <span class="error" th:if="${#fields.hasErrors('salesPerson.salesPersonId')}" th:errors="*{salesPerson.salesPersonId}"></span>
+                    </td>
+                    <td><label th:text="#{Customer.CustomerID}"></label></td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" minlength="5" maxlength="20" th:field="*{customer.customerId}" class="sod-customerId form-control" required aria-describedby="basic-addon2">
+                            <span class="input-group-addon" id="basic-addon2" data-toggle="modal" data-target="#customer-modal"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                        </div>
+                        <span class="message" th:text="${CustomerMessage}"></span>
+                        <span class="error" th:if="${#fields.hasErrors('customer.customerId')}" th:errors="*{customer.customerId}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{SalesOrder.OrderDate}"></label></td>
+                    <td>
+                        <input type="date" th:field="*{orderDate}" class="form-control" required>
+                        <span class="error" th:if="${#fields.hasErrors('orderDate')}" th:errors="*{orderDate}"></span>
+                    </td>
+                    <td><label th:text="#{SalesPerson.SalesPersonName}"></label></td>
+                    <td>
+                        <input type="text" readonly="readonly" class="sod-salesPersonName form-control">
+                    </td>
+                    <td><label th:text="#{Customer.CustomerName}"></label></td>
+                    <td>
+                        <input type="text" readonly="readonly" class="sod-customerName form-control">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{SalesOrder.OverdueDate}"></label></td>
+                    <td>
+                        <input type="date" th:field="*{overdueDate}" readonly="readonly" class="form-control">
+                    </td>
+                    <td>
+                        <label th:text="#{Field.Description}"></label>
+                    </td>
+                    <td th:colspan="3">
+                        <textarea th:field="*{description}" th:cols="55" th:rows="3" class="form-control"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <table class="list tbl-table table table-bordered">
+                <thead>
+                <tr>
+                    <th><span class="btn-add glyphicon glyphicon-plus-sign"></span></th>
+                    <th th:text="#{Item.ItemID}"></th>
+                    <th th:text="#{Item.ItemName}"></th>
+                    <th th:text="#{Item.Quantity}"></th>
+                    <th th:text="#{Item.Price}"></th>
+                    <th th:text="#{Item.Unit}"></th>
+                    <th th:text="#{Item.ItemDisc}"></th>
+                    <th th:text="#{Item.TaxAmt}"></th>
+                    <th th:text="#{Item.Amount}"></th>
+                </tr>
+                </thead>
+                <tbody id="input-sales-item">
+                <tr th:if="${#lists.isEmpty(items)}">
+                    <td></td>
+                    <td>
+                        <input type="text" minlength="5" maxlength="20" th:field="*{items[0].salesOrderDetailId.item.itemId}" class="sod-itemId-0 sod-itemId form-control" required>
+                        <span class="error" th:if="${#fields.hasErrors('items[0].salesOrderDetailId.item')}" th:errors="*{items[0].salesOrderDetailId.item}"></span>
+                    </td>
+                    <td>
+                        <input type="text" readonly th:field="*{items[0].salesOrderDetailId.item.itemName}" class="sod-itemName-0 sod-itemName form-control">
+                    </td>
+                    <td>
+                        <input type="number" min="0" th:field="*{items[0].qty}" class="sod-qty-0 sod-qty pay form-control">
+                        <span class="error" th:if="${#fields.hasErrors('items[0].qty')}" th:errors="*{items[0].qty}"></span>
+                    </td>
+                    <td>
+                        <input type="number" min="0" step="any" th:field="*{items[0].price}" class="sod-price-0 sod-price pay form-control">
+                        <span class="error" th:if="${#fields.hasErrors('items[0].price')}" th:errors="*{items[0].price}"></span>
+                    </td>
+                    <td>
+                        <input type="text" readonly th:field="*{items[0].salesOrderDetailId.item.unit}" class="sod-unit-0 sod-unit form-control"></td>
+                    <td>
+                        <input type="number" min="0" step="any" th:field="*{items[0].itemDisc}" class="sod-itemDisc-0 sod-itemDisc pay form-control">
+                        <span class="error" th:if="${#fields.hasErrors('items[0].itemDisc')}" th:errors="*{items[0].itemDisc}"></span></td>
+                    <td>
+                        <input type="number" min="0" step="any" th:field="*{items[0].taxAmt}" class="sod-taxAmt-0 sod-taxAmt pay form-control">
+                        <span class="error" th:if="${#fields.hasErrors('items[0].taxAmt')}" th:errors="*{items[0].taxAmt}"></span>
+                    </td>
+                    <td>
+                        <input type="number" min="0" step="any" readonly th:field="*{items[0].amount}" class="sod-amount-0 sod-amount form-control">
+                        <span class="error" th:if="${#fields.hasErrors('items[0].amount')}" th:errors="*{items[0].amount}"></span>
+                    </td>
+                </tr>
+                <tr th:unless="${#lists.isEmpty(items)}" th:each="item,count : ${items}">
+                    <td>
+                        <span class="text-center btn-remove glyphicon glyphicon-minus-sign"></span>
+                        <input type="hidden" th:value="${count.index}">
+                    </td>
+                    <td>
+                        <input type="text" min="5" maxlength="20" th:value="${item.getSalesOrderDetailId().getItem().getItemId()}" th:id="itemId-__${count.index}__" class="sod-itemId form-control" required>
+                        <span class="error" th:if="${#fields.hasErrors('items[__${count.index}__].salesOrderDetailId.item')}" th:errors="*{items[__${count.index}__].salesOrderDetailId.item}"></span>
+                    </td>
+                    <td>
+                        <input type="text" readonly th:value="${item.getSalesOrderDetailId().getItem().getItemName()}" th:id="itemName-__${count.index}__"  class="sod-itemName form-control">
+                    </td>
+                    <td>
+                        <input type="number" min="0" th:value="${item.getQty()}" th:id="qty-__${count.index}__" class="sod-qty pay form-control">
+                        <span class="error" th:if="${#fields.hasErrors('items[__${count.index}__].qty')}" th:errors="*{items[__${count.index}__].qty}"></span>
+                    </td>
+                    <td>
+                        <input type="number" min="0" step="any" th:value="${item.getPrice()}" th:id="price-__${count.index}__" class="sod-price pay form-control">
+                        <span class="error" th:if="${#fields.hasErrors('items[__${count.index}__].price')}" th:errors="*{items[__${count.index}__].price}"></span>
+                    </td>
+                    <td>
+                        <input type="text" readonly th:value="${item.getSalesOrderDetailId().getItem().getUnit()}" th:id="unit-__${count.index}__" class="sod-unit form-control"></td>
+                    <td>
+                        <input type="number" min="0" step="any" th:value="${item.getItemDisc()}" th:id="itemDisc-__${count.index}__" class="sod-itemDisc pay form-control">
+                        <span class="error" th:if="${#fields.hasErrors('items[__${count.index}__].itemDisc')}" th:errors="*{items[__${count.index}__].itemDisc}"></span>
+                    </td>
+                    <td><input type="number" min="0" step="any" th:value="${item.getTaxAmt()}" th:id="taxAmt-__${count.index}__" class="sod-taxAmt pay form-control">
+                        <span class="error" th:if="${#fields.hasErrors('items[__${count.index}__].taxAmt')}" th:errors="*{items[__${count.index}__].taxAmt}"></span>
+                    </td>
+                    <td>
+                        <input type="number" min="0" step="any" readonly th:value="${item.amount}" th:id="amount-__${count.index}__" class="sod-amount form-control">
+                        <span class="error" th:if="${#fields.hasErrors('items[__${count.index}__].amount')}" th:errors="*{items[__${count.index}__].amount}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="hidden" value="0" id="count"/>
+            <table id="charge">
+                <tr>
+                    <td th:text="#{SalesOrder.OrderDisc}"></td>
+                    <td>
+                        <input type="number" min="0" step="any" th:field="*{orderDisc}" class="form-control" readonly/>
+                        <span class="error" th:if="${#fields.hasErrors('orderDisc')}" th:errors="*{orderDisc}"></span>
+                    </td>
+                    <td th:text="#{SalesOrder.TotalAmt}"></td>
+                    <td>
+                        <input type="number" min="0" step="any" th:field="*{totalAmt}" class="form-control" readonly/>
+                        <span class="error" th:if="${#fields.hasErrors('totalAmt')}" th:errors="*{totalAmt}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td th:text="#{Item.TaxAmt}">TaxAmt</td>
+                    <td>
+                        <input type="number" min="0" step="any" th:field="*{taxAmt}" class="form-control" readonly/>
+                        <span class="error" th:if="${#fields.hasErrors('taxAmt')}" th:errors="*{taxAmt}"></span>
+                    </td>
+                    <td th:text="#{SalesOrder.Payment}">Payment</td>
+                    <td>
+                        <input type="number" min="0" step="any" th:field="*{payment}" class="form-control"/>
+                        <span class="error" th:if="${#fields.hasErrors('payment')}" th:errors="*{payment}"/>
+                    </td>
+                </tr>
+            </table>
+            <div class="btn-action">
+                <button type="button" class="btn btn-default" onclick="javascript:location.href='/salesOrder'">
+                    <span th:text="#{Form.Reset}"></span>&nbsp;<i class="fa fa-refresh" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-charge" data-toggle="popover"
+                        title="save sales-order?" data-content="Do you want to save sales-order?">
+                    <span th:text="#{Form.Charge}"></span>&nbsp;<i class="fa fa-calculator" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn-back btn" onclick="javascript:location.href='/'">
+                    <span th:text="#{Form.Back}"></span>&nbsp;<i class="fa fa-undo" aria-hidden="true"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div th:replace="modal/salesPersonModal::salesPersonModal"></div>
+    <div th:replace="modal/customerModal::customerModal"></div>
+    <script type="text/javascript" th:src="@{/js/sales-order.js}"></script>
+</section>
+</body>
+</html>
